@@ -81,7 +81,7 @@ curl -s -X POST \
     }
   }'
 
-extract_nano_banana_response /tmp/nb_resp.json output.png
+extract_nano_banana_image /tmp/nb_resp.json output.png
 convert_to_webp output.png output.webp
 ```
 
@@ -104,7 +104,7 @@ curl -s -X POST \
     }
   }'
 
-extract_nano_banana_response /tmp/nb_resp.json output.png
+extract_nano_banana_image /tmp/nb_resp.json output.png
 convert_to_webp output.png output.webp
 ```
 
@@ -129,7 +129,7 @@ base64 -w0 input.png \
       -H "Content-Type: application/json" \
       -d @- -o /tmp/nb_resp.json
 
-extract_nano_banana_response /tmp/nb_resp.json output.png
+extract_nano_banana_image /tmp/nb_resp.json output.png
 convert_to_webp output.png output.webp
 ```
 
@@ -155,7 +155,7 @@ done \
       -H "Content-Type: application/json" \
       -d @- -o /tmp/nb_resp.json
 
-extract_nano_banana_response /tmp/nb_resp.json output.png
+extract_nano_banana_image /tmp/nb_resp.json output.png
 convert_to_webp output.png output.webp
 ```
 
@@ -202,7 +202,7 @@ Set these in the `generationConfig.imageConfig` object:
 
 ## Error Handling
 
-The `extract_nano_banana_response` command checks for API errors and missing image data automatically. If you need to debug manually:
+The `extract_nano_banana_image` command checks for API errors and missing image data automatically. If you need to debug manually:
 
 ```bash
 tr -d '\000-\010\013\014\016-\037' < /tmp/nb_resp.json | jq .
@@ -212,9 +212,9 @@ Common issues:
 - **Missing API key**: Ensure `GEMINI_API_KEY` is exported in your shell environment
 - **Empty output file**: The model may have refused the prompt (safety filters) — check the JSON response for `blockReason` or `finishReason`
 - **Large images for editing**: Very large source images may exceed request size limits — resize before encoding
-- **`jq` parse errors**: The `tr` sanitization step in `extract_nano_banana_response` handles this, but if running manually, always sanitize first
+- **`jq` parse errors**: The `tr` sanitization step in `extract_nano_banana_image` handles this, but if running manually, always sanitize first
 - **Quota errors (429)**: Free-tier quotas for `gemini-3-pro-image` may be 0 — a billing-enabled API key is required
 
 ## How to Use This Skill
 
-When the user invokes `/loreduck:image`, interpret `$ARGUMENTS` as the image generation task. Determine the appropriate workflow (generate, edit, or compose) based on the request, construct the cURL command with the right parameters, execute it using `extract_nana_banana_response` for response processing, convert it to WebP using `convert_to_webp` and then present the result. Always save output images to the current working directory unless the user specifies a different path.
+When the user invokes `/loreduck:image`, interpret `$ARGUMENTS` as the image generation task. Determine the appropriate workflow (generate, edit, or compose) based on the request, construct the cURL command with the right parameters, execute it using `extract_nano_banana_image` for response processing, convert it to WebP using `convert_to_webp` and then present the result. Always save output images to the current working directory unless the user specifies a different path.
