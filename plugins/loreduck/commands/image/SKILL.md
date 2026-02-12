@@ -30,7 +30,7 @@ The Gemini API response JSON can be very large (multi-megabyte base64 image data
 
 ```bash
 curl -s -X POST "$ENDPOINT" ... -o /tmp/nb_resp.json
-extract_nano_banana_image /tmp/nb_resp.json output.png
+extract_nano_banana_image /tmp/nb_resp.json /tmp/output.png
 ```
 
 The command (`extract_nano_banana_image`) safely:
@@ -43,8 +43,11 @@ The command (`extract_nano_banana_image`) safely:
 
 ### Then: convert to WebP!
 
+Use the `convert_to_webp` command and then discard the PNG file:
+
 ```bash
-convert_to_webp output.png output.webp
+convert_to_webp /tmp/output.png output.webp
+rm /tmp/output.png
 ```
 
 ### What NOT to do
@@ -81,8 +84,8 @@ curl -s -X POST \
     }
   }'
 
-extract_nano_banana_image /tmp/nb_resp.json output.png
-convert_to_webp output.png output.webp
+extract_nano_banana_image /tmp/nb_resp.json /tmp/output.png
+convert_to_webp /tmp/output.png output.webp
 ```
 
 ### Text-to-Image with Aspect Ratio and Size
@@ -104,8 +107,8 @@ curl -s -X POST \
     }
   }'
 
-extract_nano_banana_image /tmp/nb_resp.json output.png
-convert_to_webp output.png output.webp
+extract_nano_banana_image /tmp/nb_resp.json /tmp/output.png
+convert_to_webp /tmp/output.png output.webp
 ```
 
 ### Edit an Existing Image
@@ -129,8 +132,8 @@ base64 -w0 input.png \
       -H "Content-Type: application/json" \
       -d @- -o /tmp/nb_resp.json
 
-extract_nano_banana_image /tmp/nb_resp.json output.png
-convert_to_webp output.png output.webp
+extract_nano_banana_image /tmp/nb_resp.json /tmp/output.png
+convert_to_webp /tmp/output.png output.webp
 ```
 
 For JPEG source images, use `"mime_type": "image/jpeg"`. Match the mime type to the actual file format.
