@@ -158,8 +158,8 @@ done \
       -H "Content-Type: application/json" \
       -d @- -o /tmp/nb_resp.json
 
-extract_nano_banana_image /tmp/nb_resp.json output.png
-convert_to_webp output.png output.webp
+extract_nano_banana_image /tmp/nb_resp.json /tmp/output.png
+convert_to_webp /tmp/output.png output.webp
 ```
 
 ## Generation Options
