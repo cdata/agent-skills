@@ -1,0 +1,8 @@
+{
+  "name": "loreduck",
+  "description": "Image generation and campaign lore tools for Pathfinder 2E",
+  "version": "1.0.0",
+  "author": {
+    "name": "cdata"
+  }
+}

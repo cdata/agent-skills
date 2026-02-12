@@ -1,0 +1,13 @@
+{
+  "name": "cdata",
+  "owner": {
+    "name": "cdata"
+  },
+  "plugins": [
+    {
+      "name": "loreduck",
+      "source": "./plugins/loreduck",
+      "description": "Image generation and campaign lore tools for Pathfinder 2E"
+    }
+  ]
+}
