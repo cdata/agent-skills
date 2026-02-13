@@ -21,6 +21,29 @@
           inherit system overlays;
         };
 
+        rollpoly =
+          with pkgs;
+          rustPlatform.buildRustPackage rec {
+            pname = "rollpoly";
+            version = "0.9.0";
+
+            src = fetchCrate {
+              inherit pname version;
+              sha256 = "sha256-/ijnTORhL3uuoRRhKygOu3WUyalM73syajy8qHMw52Q=";
+            };
+
+            cargoHash = "sha256-xp7B1CQ8Pabky4uR7kPOrGc01wJlUEhTTb+sKlErzsk=";
+          };
+
+        roll =
+          with pkgs;
+          writeShellApplication {
+            name = "roll";
+            text = ''
+              ${rollpoly}/bin/rollpoly "$1" 2> >(${gnused}/bin/sed 's/rollpoly/roll/g' >&2)
+            '';
+          };
+
         extract-nano-banana-image =
           with pkgs;
           writeShellApplication {
@@ -93,6 +116,7 @@
               libwebp
               extract-nano-banana-image
               convert-to-webp
+              roll
             ];
 
             buildInputs = [ ];
