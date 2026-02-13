@@ -5,7 +5,7 @@ Loreduck is:
 - A command line environment 
 - A collection of [agent skills]
 
-Loreduck turns your agent into a creative muse who derives lore and setting concepts from you [TTRPG] lore. Loreduck is intended to be paired with lore that is created and curated primarily by a human.
+Loreduck turns your agent into a creative muse who derives lore, setting concepts and creative provocations for your [TTRPG] prep sessions. Loreduck is intended to be paired with lore that is created and curated primarily by a human.
 
 To make best use of Loreduck, pair it with an [Obsidian] vault (or similar Markdown-based hypergraph) that contains your campaign lore. 
 
