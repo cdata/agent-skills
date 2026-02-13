@@ -181,10 +181,18 @@ _{Idea}_
 - Invent freely where the vault has gaps, but stay consistent with established facts.
 - The dungeon name should be evocative and specific (e.g., "The Ember Vaults of Khorash", not "Fire Dungeon").
 - Include a **Hooks** section with threads that connect the dungeon back to the campaign.
-- Record the raw dice results in a **Dice** section at the bottom for reference.
 - End the note with `#dungeon` on its own line.
+
+## Step 4: Generate a Mood Portrait
+
+After the dungeon note is written, use the `/loreduck:image` skill to generate a **4:3 mood portrait** of the dungeon.
+
+1. **Craft the prompt** — Distill the dungeon's theme, setting, and atmosphere into a single evocative image prompt. Focus on mood, lighting, and environment rather than characters or action. Reference the dungeon's name, location, and dominant visual motifs. End the prompt with: `dark fantasy illustration, moody, atmospheric, painterly`.
+2. **Invoke the image skill** with a 4:3 aspect ratio at 1K resolution.
+3. **Save the image** as `loreduck/{Dungeon Name}.webp` (matching the dungeon note's filename).
+4. **Embed the image** at the top of the dungeon note, just above the one-sentence summary, using: `![[{Dungeon Name} (Location Portrait).webp]]`
 
 ## How to Use This Skill
 
-When the user invokes `/loreduck:dungeon`, interpret `$ARGUMENTS` as a creative prompt or theme for the dungeon. Execute the three steps in order: roll dice, gather context, generate the dungeon. Present the dice results and the generated note to the user.
+When the user invokes `/loreduck:dungeon`, interpret `$ARGUMENTS` as a creative prompt or theme for the dungeon. Execute the four steps in order: roll dice, gather context, generate the dungeon, generate a mood portrait. Present the dice results and the generated note to the user.
 
