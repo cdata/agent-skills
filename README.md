@@ -1,4 +1,4 @@
-# Loreduck
+# 🦆 Loreduck
 
 Loreduck is:
 
