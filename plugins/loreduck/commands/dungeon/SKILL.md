@@ -28,7 +28,7 @@ A lightweight adventure design framework that maps mythic story structure onto f
 
 ## Step 1: Roll the Dice
 
-Roll all five dice using the `roll` command. Each die maps to one room:
+Roll all five dice using the `/loreduck:roll` skill. Each die maps to one room:
 
 | Die  | Room       |
 | ---- | ---------- |
@@ -38,10 +38,10 @@ Roll all five dice using the `roll` command. Each die maps to one room:
 | d10  | Climax     |
 | d12  | Revelation |
 
-Execute a single roll command:
+Execute a single roll:
 
-```bash
-roll 1d4 1d6 1d8 1d10 1d12
+```
+/loreduck:roll 1d4 1d6 1d8 1d10 1d12
 ```
 
 Record each result and look up the corresponding concept from the tables below.

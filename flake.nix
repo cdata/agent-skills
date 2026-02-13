@@ -40,7 +40,9 @@
           writeShellApplication {
             name = "roll";
             text = ''
-              ${rollpoly}/bin/rollpoly "$1" 2> >(${gnused}/bin/sed 's/rollpoly/roll/g' >&2)
+              for arg in "$@"; do
+                ${rollpoly}/bin/rollpoly "$arg" 2> >(${gnused}/bin/sed 's/rollpoly/roll/g' >&2)
+              done
             '';
           };
 
