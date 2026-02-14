@@ -46,55 +46,56 @@
             '';
           };
 
-        extract-nano-banana-image =
+        create-image =
           with pkgs;
           writeShellApplication {
-            name = "extract_nano_banana_image";
-            text = ''
-              set -euo pipefail
+            name = "create_image";
+            runtimeInputs = [
+              curl
+              jq
+              extract-image
+              convert-to-webp
+            ];
+            text = builtins.readFile ./plugins/loreduck/scripts/create-image.sh;
+          };
 
-              RESP="$1"
-              OUT="$2"
+        modify-image =
+          with pkgs;
+          writeShellApplication {
+            name = "modify_image";
+            runtimeInputs = [
+              curl
+              jq
+              coreutils
+              extract-image
+              convert-to-webp
+            ];
+            text = builtins.readFile ./plugins/loreduck/scripts/modify-image.sh;
+          };
 
-              TMPB64=$(${coreutils}/bin/mktemp /tmp/nb_b64.XXXXXX)
-              trap 'rm -f "$TMPB64"' EXIT
+        compose-image =
+          with pkgs;
+          writeShellApplication {
+            name = "compose_image";
+            runtimeInputs = [
+              curl
+              jq
+              coreutils
+              extract-image
+              convert-to-webp
+            ];
+            text = builtins.readFile ./plugins/loreduck/scripts/compose-image.sh;
+          };
 
-              # Check for API errors first
-              ERROR=$(${coreutils}/bin/tr -d '\000-\010\013\014\016-\037' < "$RESP" \
-                | ${jq}/bin/jq -r '.error.message // empty' 2>/dev/null)
-              if [[ -n "$ERROR" ]]; then
-                echo "API error: $ERROR" >&2
-                exit 1
-              fi
-
-              # Extract base64 image data to intermediate file
-              ${coreutils}/bin/tr -d '\000-\010\013\014\016-\037' < "$RESP" \
-                | ${jq}/bin/jq -r '[.candidates[0].content.parts[]
-                  | select(has("inlineData") or has("inline_data"))]
-                  | .[0] | (.inlineData // .inline_data).data' \
-                > "$TMPB64"
-
-              if [[ ! -s "$TMPB64" ]]; then
-                echo "No image data found in response." >&2
-                echo "Response structure:" >&2
-                ${coreutils}/bin/tr -d '\000-\010\013\014\016-\037' < "$RESP" \
-                  | ${jq}/bin/jq 'del(.. | .data? // empty)' >&2
-                exit 1
-              fi
-
-              # Decode to output file
-              ${coreutils}/bin/base64 -d "$TMPB64" > "$OUT"
-
-              echo "Saved $(${coreutils}/bin/wc -c < "$OUT") bytes to $OUT"
-
-              # Print text commentary if present
-              TEXT=$(${coreutils}/bin/tr -d '\000-\010\013\014\016-\037' < "$RESP" \
-                | ${jq}/bin/jq -r '.candidates[0].content.parts[] | select(has("text")) | .text' 2>/dev/null)
-              if [[ -n "$TEXT" ]]; then
-                echo "---"
-                echo "$TEXT"
-              fi           
-            '';
+        extract-image =
+          with pkgs;
+          writeShellApplication {
+            name = "extract_image";
+            runtimeInputs = [
+              jq
+              coreutils
+            ];
+            text = builtins.readFile ./plugins/loreduck/scripts/extract-image.sh;
           };
 
         convert-to-webp =
@@ -116,7 +117,10 @@
           default = mkShell {
             nativeBuildInputs = [
               libwebp
-              extract-nano-banana-image
+              extract-image
+              create-image
+              modify-image
+              compose-image
               convert-to-webp
               roll
             ];
@@ -125,8 +129,10 @@
             env = { };
             shellHook = ''
               echo "🦆 QUACK! Loreduck shell loaded"
-              echo ""
-              echo "Don't forget to export GEMINI_API_KEY!"
+              if [ -z "''${GEMINI_API_KEY}" ]; then
+                echo ""
+                echo "Don't forget to export GEMINI_API_KEY!"
+              fi
             '';
           };
         };

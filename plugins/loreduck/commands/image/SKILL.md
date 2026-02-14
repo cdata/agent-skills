@@ -12,154 +12,69 @@ Image generation skill powered by Google's Gemini image models via the REST API.
 - `GEMINI_API_KEY` environment variable set
 - `curl`, `jq`, and `base64` available on PATH (standard on most Linux/macOS systems)
 
-## Model
-
-Always use `gemini-3-pro-image-preview` for all image generation tasks. This is the highest quality model available.
-
-## API Endpoint
-
-```
-https://generativelanguage.googleapis.com/v1beta/models/gemini-3-pro-image-preview:generateContent
-```
-
-## Critical: Handling API Responses
-
-The Gemini API response JSON can be very large (multi-megabyte base64 image data) and may contain unescaped control characters that break `jq`. **Never pipe the full extraction pipeline in one shot** — this can hang indefinitely on large responses.
-
-**Always use the prescribed extraction command:**
-
-```bash
-curl -s -X POST "$ENDPOINT" ... -o /tmp/nb_resp.json
-extract_nano_banana_image /tmp/nb_resp.json /tmp/output.png
-```
-
-The command (`extract_nano_banana_image`) safely:
-1. Sanitizes control characters with `tr`
-2. Checks for API errors
-3. Extracts base64 to an **intermediate temp file** (avoids pipe-buffer hangs)
-4. Decodes to the final image in a separate step
-5. Handles both `inlineData` (camelCase) and `inline_data` (snake_case) field names
-6. Prints text commentary if present
-
-### Then: convert to WebP!
-
-Use the `convert_to_webp` command and then discard the PNG file:
-
-```bash
-convert_to_webp /tmp/output.png output.webp
-rm /tmp/output.png
-```
-
-### What NOT to do
-
-```bash
-# WRONG: single pipeline hangs on large responses
-curl ... | jq -r '...' | base64 -d > output.png
-
-# WRONG: storing response in a shell variable (too large)
-RESPONSE=$(curl -s ...)
-
-# WRONG: only checking snake_case field names (API may return camelCase)
-jq '.inline_data.data'
-```
-
 ## Task Workflows
 
 All workflows use the same REST endpoint. The difference is in the request body.
 
 ### Text-to-Image Generation
 
-Generate an image from a text prompt and save it to a file.
+Use the `create_image` command to generate an image from a text prompt. It handles the API call, response extraction, and WebP conversion in one step.
 
 ```bash
-curl -s -X POST \
-  "https://generativelanguage.googleapis.com/v1beta/models/gemini-3-pro-image-preview:generateContent" \
-  -H "x-goog-api-key: ${GEMINI_API_KEY}" \
-  -H "Content-Type: application/json" \
-  -o /tmp/nb_resp.json \
-  -d '{
-    "contents": [{"parts": [{"text": "A cat wearing a wizard hat"}]}],
-    "generationConfig": {
-      "responseModalities": ["TEXT", "IMAGE"]
-    }
-  }'
-
-extract_nano_banana_image /tmp/nb_resp.json /tmp/output.png
-convert_to_webp /tmp/output.png output.webp
+create_image <prompt> <output_image> [aspect_ratio] [image_size]
 ```
 
-### Text-to-Image with Aspect Ratio and Size
+Examples:
 
 ```bash
-curl -s -X POST \
-  "https://generativelanguage.googleapis.com/v1beta/models/gemini-3-pro-image-preview:generateContent" \
-  -H "x-goog-api-key: ${GEMINI_API_KEY}" \
-  -H "Content-Type: application/json" \
-  -o /tmp/nb_resp.json \
-  -d '{
-    "contents": [{"parts": [{"text": "Futuristic motorcycle on Mars"}]}],
-    "generationConfig": {
-      "responseModalities": ["TEXT", "IMAGE"],
-      "imageConfig": {
-        "aspectRatio": "16:9",
-        "imageSize": "4K"
-      }
-    }
-  }'
+# Basic generation
+create_image "A cat wearing a wizard hat" output.webp
 
-extract_nano_banana_image /tmp/nb_resp.json /tmp/output.png
-convert_to_webp /tmp/output.png output.webp
+# With aspect ratio
+create_image "Futuristic motorcycle on Mars" output.webp "16:9"
+
+# With aspect ratio and resolution
+create_image "Futuristic motorcycle on Mars" output.webp "16:9" "4K"
 ```
+
+The default image size is `2K`. See [Generation Options](#generation-options) for available aspect ratios and resolutions.
 
 ### Edit an Existing Image
 
-Use `jq -Rs` (raw slurp from stdin) to build the request JSON with inline image data. This avoids shell variable size limits.
+Use the `modify_image` command to edit an existing image. It handles encoding, API calls, response extraction, and WebP conversion in one step.
 
 ```bash
-base64 -w0 input.png \
-  | jq -Rs --arg prompt "Add a sunset to the background" '{
-      "contents": [{"parts": [
-        {"text": $prompt},
-        {"inline_data": {"mime_type": "image/png", "data": .}}
-      ]}],
-      "generationConfig": {
-        "responseModalities": ["TEXT", "IMAGE"]
-      }
-    }' \
-  | curl -s -X POST \
-      "https://generativelanguage.googleapis.com/v1beta/models/gemini-3-pro-image-preview:generateContent" \
-      -H "x-goog-api-key: ${GEMINI_API_KEY}" \
-      -H "Content-Type: application/json" \
-      -d @- -o /tmp/nb_resp.json
-
-extract_nano_banana_image /tmp/nb_resp.json /tmp/output.png
-convert_to_webp /tmp/output.png output.webp
+modify_image <source_image> <prompt> <output_image> [aspect_ratio]
 ```
 
-For JPEG source images, use `"mime_type": "image/jpeg"`. Match the mime type to the actual file format.
+Examples:
+
+```bash
+# Basic edit
+modify_image input.png "Add a sunset to the background" output.webp
+
+# Edit with aspect ratio
+modify_image input.png "Add a sunset to the background" output.webp "16:9"
+```
+
+Supports PNG, WebP, and JPEG source images (MIME type is detected automatically from the file extension).
 
 ### Compose Multiple Images
 
-Encode each image as a JSON part, slurp them into an array, then merge with the text prompt. Supports up to 14 reference images.
+Use the `compose_image` command to combine multiple source images into a new image. Supports up to 14 reference images in PNG, WebP, or JPEG format (MIME type is detected automatically from file extensions).
 
 ```bash
-for img in person1.png person2.png; do
-  base64 -w0 "$img" | jq -Rs '{"inline_data": {"mime_type": "image/png", "data": .}}'
-done \
-  | jq -s --arg prompt "Create a group photo in an office setting" '{
-      "contents": [{"parts": ([{"text": $prompt}] + .)}],
-      "generationConfig": {
-        "responseModalities": ["TEXT", "IMAGE"]
-      }
-    }' \
-  | curl -s -X POST \
-      "https://generativelanguage.googleapis.com/v1beta/models/gemini-3-pro-image-preview:generateContent" \
-      -H "x-goog-api-key: ${GEMINI_API_KEY}" \
-      -H "Content-Type: application/json" \
-      -d @- -o /tmp/nb_resp.json
+compose_image <prompt> <output_image> <source_image>...
+```
 
-extract_nano_banana_image /tmp/nb_resp.json /tmp/output.png
-convert_to_webp /tmp/output.png output.webp
+Examples:
+
+```bash
+# Combine two portraits into a group scene
+compose_image "Create a group photo in an office setting" output.webp person1.png person2.png
+
+# Merge elements from multiple references
+compose_image "Combine these into a collage" collage.webp photo1.jpg photo2.png photo3.webp
 ```
 
 ## Generation Options
@@ -205,19 +120,14 @@ Set these in the `generationConfig.imageConfig` object:
 
 ## Error Handling
 
-The `extract_nano_banana_image` command checks for API errors and missing image data automatically. If you need to debug manually:
-
-```bash
-tr -d '\000-\010\013\014\016-\037' < /tmp/nb_resp.json | jq .
-```
-
 Common issues:
+
 - **Missing API key**: Ensure `GEMINI_API_KEY` is exported in your shell environment
 - **Empty output file**: The model may have refused the prompt (safety filters) — check the JSON response for `blockReason` or `finishReason`
 - **Large images for editing**: Very large source images may exceed request size limits — resize before encoding
-- **`jq` parse errors**: The `tr` sanitization step in `extract_nano_banana_image` handles this, but if running manually, always sanitize first
+- **`jq` parse errors**: The `tr` sanitization step in `extract_image` handles this, but if running manually, always sanitize first
 - **Quota errors (429)**: Free-tier quotas for `gemini-3-pro-image` may be 0 — a billing-enabled API key is required
 
 ## How to Use This Skill
 
-When the user invokes `/loreduck:image`, interpret `$ARGUMENTS` as the image generation task. Determine the appropriate workflow (generate, edit, or compose) based on the request, construct the cURL command with the right parameters, execute it using `extract_nano_banana_image` for response processing, convert it to WebP using `convert_to_webp` and then present the result. Always save output images to the current working directory unless the user specifies a different path.
+When the user invokes `/loreduck:image`, interpret `$ARGUMENTS` as the image generation task. Determine the appropriate workflow based on the request and use the corresponding command: `create_image` for text-to-image generation, `modify_image` for editing an existing image, or `compose_image` for combining multiple images. Always save output images to the current working directory unless the user specifies a different path.
