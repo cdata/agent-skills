@@ -97,7 +97,7 @@ Use the `loreduck:image` skill to generate a portrait for the NPC. The image sho
 - Depict the character in a painterly fantasy illustration style with rich colors and detailed lighting
 - Draw on the NPC's Appearance notes and setting context for the prompt
 
-Embed it at the top of the note as `![[{NPC Name} (Character Portrait).png|512]]`
+Embed it at the top of the note as `![[{NPC Name} (Character Portrait).png]]`
 
 #### 7. Journal
 
