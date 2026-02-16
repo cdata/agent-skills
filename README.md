@@ -34,6 +34,7 @@ claude
 | `/loreduck:image` | Generate, edit, and compose images using Google Gemini's image models. | `/loreduck:image a treasure chest overflowing with gold coins, isometric, fantasy RPG style` |
 | `/loreduck:lore` | Creates NPCs, items, locations, and other lore notes as linked Markdown | `/loreduck:lore create an NPC named Vasha, a tiefling alchemist in the Ash Quarter` |
 | `/loreduck:dungeon` | Generate a "5 Room Dungeon" using dice-drop generator tables | `/loreduck:dungeon a forgotten dwarven forge beneath the city` |
+| `/loreduck:styleguide` | Generate a reusable aesthetic styleguide from source images | `/loreduck:styleguide A 'character' styleguide using the current portraits of the PCs` |
 
 [agent skills]: https://agentskills.io/
 [install Nix]: https://github.com/mschwaig/howto-install-nix-with-flake-support/blob/main/README.md

@@ -93,7 +93,7 @@ Schema:
   "style": "<style-name>",
   "inputs": [
     {
-      "source": "<original-path-relative-to-CWD>",
+      "source": "<path-relative-to-CWD>",
       "sha256": "<hex-digest>"
     }
   ],
@@ -110,7 +110,7 @@ Compute hashes using `sha256sum`:
 sha256sum path/to/image.png
 ```
 
-The `source` path for each input should be relative to the CWD. If an image was copied in during Step 5, use its **original** path (before copying) as the source.
+The `source` path for each input should be relative to the CWD. If an image was copied in during Step 5, use its **new path** (within the styleguide folder) as the source.
 
 ## Step 7: Manage the Default Styleguide
 
