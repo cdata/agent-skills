@@ -34,8 +34,8 @@ if [[ -z "${GEMINI_API_KEY:-}" ]]; then
 fi
 
 # Temp files (cleaned up on exit)
-RESP_FILE="$(mktemp /tmp/nb_resp.XXXXXX.json)"
-PNG_FILE="$(mktemp /tmp/nb_out.XXXXXX.png)"
+RESP_FILE="$(mktemp "${TMPDIR:-/tmp}/nb_resp.XXXXXX.json")"
+PNG_FILE="$(mktemp "${TMPDIR:-/tmp}/nb_out.XXXXXX.png")"
 trap 'rm -f "$RESP_FILE" "$PNG_FILE"' EXIT
 
 # Build imageConfig

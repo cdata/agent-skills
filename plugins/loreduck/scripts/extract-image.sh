@@ -4,7 +4,7 @@ set -euo pipefail
 RESP="$1"
 OUT="$2"
 
-TMPB64=$(mktemp /tmp/nb_b64.XXXXXX)
+TMPB64=$(mktemp "${TMPDIR:-/tmp}/nb_b64.XXXXXX")
 trap 'rm -f "$TMPB64"' EXIT
 
 # Check for API errors first

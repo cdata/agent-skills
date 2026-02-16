@@ -48,9 +48,9 @@ case "${EXT,,}" in
 esac
 
 # Temp files (cleaned up on exit)
-B64_FILE="$(mktemp /tmp/nb_b64.XXXXXX)"
-RESP_FILE="$(mktemp /tmp/nb_resp.XXXXXX.json)"
-PNG_FILE="$(mktemp /tmp/nb_out.XXXXXX.png)"
+B64_FILE="$(mktemp "${TMPDIR:-/tmp}/nb_b64.XXXXXX")"
+RESP_FILE="$(mktemp "${TMPDIR:-/tmp}/nb_resp.XXXXXX.json")"
+PNG_FILE="$(mktemp "${TMPDIR:-/tmp}/nb_out.XXXXXX.png")"
 trap 'rm -f "$B64_FILE" "$RESP_FILE" "$PNG_FILE"' EXIT
 
 # 1. Encode source image to a temp file (NOT a shell variable — too large)
