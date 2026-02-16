@@ -14,7 +14,17 @@ Creative writing assistant for expanding the lore of a campaign world maintained
 - **Consider the bigger picture** — cross-reference related notes to maintain narrative coherence.
 - **ALWAYS write into the `loreduck/` folder** when creating or modifying notes.
 - **NEVER create or modify notes outside the `loreduck/` folder.**
-- **NEVER overwrite files** in the `loreduck/` folder; version them instead (e.g., `-v2`, `-v3` etc.)
+- **NEVER overwrite files** in the `loreduck/` folder; version them instead (see [File Versioning](#file-versioning)).
+
+## File Versioning
+
+Before writing ANY file to `loreduck/` — notes, images, or other assets — check whether a file with the intended name already exists. If it does, append a version suffix before the extension:
+
+- `Penguin Mage (Character Portrait).png` already exists → save as `Penguin Mage (Character Portrait)-v2.png`
+- `Penguin Mage (Character Portrait)-v2.png` already exists → save as `Penguin Mage (Character Portrait)-v3.png`
+- `The Ember Ledger.md` already exists → save as `The Ember Ledger-v2.md`
+
+Use `ls loreduck/` or Glob to check before writing. When a note embeds a versioned image, update the embed link to match (e.g., `![[Penguin Mage (Character Portrait)-v2.png]]`).
 
 ## Setting
 
@@ -68,6 +78,8 @@ When a styleguide applies, follow this procedure for image generation:
 
    Note: `modify_image` takes the source image as the **first** argument, then the prompt, then the output path.
 
+   **Before running the command**, check for an existing file at `<output_path>` and version if needed (see [File Versioning](#file-versioning)).
+
 ### When no styleguide is available
 
 If no styleguide exists at `loreduck/styles/default` and the user hasn't specified one, fall back to `create_image` with a descriptive text-only prompt as before.
@@ -80,7 +92,7 @@ When creating a new item, follow these steps in order:
 
 #### 1. Create the note
 
-Each item gets its own note in `loreduck/`, named after the item (e.g., `loreduck/Essence of Crimson.md`).
+Each item gets its own note in `loreduck/`, named after the item (e.g., `loreduck/Essence of Crimson.md`). Check for an existing file and version if needed (see [File Versioning](#file-versioning)).
 
 #### 2. Stat block
 
@@ -102,7 +114,7 @@ Write a concise paragraph that blends narrative flavor with mechanical effects. 
 
 Generate an icon for the item. If a styleguide is available (see [Styleguide Integration](#styleguide-integration)), use `modify_image` with the visual reference sheet; otherwise use `create_image`. The image should:
 
-- Be named `{Item Name} (Item Icon).png` and saved to the `loreduck/` folder
+- Be named `{Item Name} (Item Icon).png` and saved to the `loreduck/` folder — check for an existing file and version if needed (see [File Versioning](#file-versioning))
 - Depict the item in a fantasy RPG icon style (isometric, on stone or natural surface, painterly)
 - Be embedded at the top of the note as `![[{Item Name} (Item Icon).png|256]]`
 
@@ -116,7 +128,7 @@ When creating a new NPC, follow these steps in order:
 
 #### 1. Create the note
 
-Each NPC gets its own note in `loreduck/`, named after the character (e.g., `loreduck/Vestel, The Fungal Leshy.md`). If the NPC has a title or epithet, include it after a comma.
+Each NPC gets its own note in `loreduck/`, named after the character (e.g., `loreduck/Vestel, The Fungal Leshy.md`). If the NPC has a title or epithet, include it after a comma. Check for an existing file and version if needed (see [File Versioning](#file-versioning)).
 
 #### 2. One-liner
 
@@ -140,7 +152,7 @@ A `### Motivation` section with a short bullet list describing what the NPC want
 
 Generate a portrait for the NPC. If a styleguide is available (see [Styleguide Integration](#styleguide-integration)), use `modify_image` with the visual reference sheet; otherwise use `create_image`. The image should:
 
-- Be named `{NPC Name} (Character Portrait).png` and saved to the `loreduck/` folder
+- Be named `{NPC Name} (Character Portrait).png` and saved to the `loreduck/` folder — check for an existing file and version if needed (see [File Versioning](#file-versioning))
 - Use a **4:3 aspect ratio**
 - Depict the character in a painterly fantasy illustration style with rich colors and detailed lighting
 - Draw on the NPC's Appearance notes and setting context for the prompt
