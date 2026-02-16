@@ -11,7 +11,8 @@ Generates a reusable art style reference from a set of input images. Produces bo
 
 - **ALWAYS write output into the `loreduck/styles/` folder.**
 - **NEVER create or modify notes outside the `loreduck/` folder.**
-- All input images must exist as files within the current working directory (or be copied in during processing).
+- **ALWAYS use images paths that fall inside the project root** when relevant
+  - All input images must exist as files within the current working directory (or be copied in during processing).
 
 ## Step 1: Parse the Request
 

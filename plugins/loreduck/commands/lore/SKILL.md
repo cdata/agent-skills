@@ -14,6 +14,7 @@ Creative writing assistant for expanding the lore of a campaign world maintained
 - **Consider the bigger picture** — cross-reference related notes to maintain narrative coherence.
 - **ALWAYS write into the `loreduck/` folder** when creating or modifying notes.
 - **NEVER create or modify notes outside the `loreduck/` folder.**
+- **NEVER overwrite files** in the `loreduck/` folder; version them instead (e.g., `-v2`, `-v3` etc.)
 
 ## Setting
 
