@@ -25,8 +25,8 @@ If no `setting.md` exists, default to generic fantasy conventions and ask the us
 
 Styleguides live in `loreduck/styles/` and are created via the `loreduck:styleguide` skill. Each styleguide directory contains:
 
-- `guide.webp` — a visual reference sheet with color palette swatches, rendering technique examples, lighting analysis, and compositional motifs
-- `guide.md` — a prose style description with a reusable **Prompt Fragment** section at the bottom
+- `visual-guide.webp` — a visual reference sheet with color palette swatches, rendering technique examples, lighting analysis, and compositional motifs
+- `textual-guide.md` — a prose style description with a reusable **Prompt Fragment** section at the bottom
 
 The **default styleguide** is a symlink at `loreduck/styles/default` pointing to the active style directory.
 
@@ -42,9 +42,9 @@ Use the default styleguide for all image generation **unless**:
 
 When a styleguide applies, follow this procedure for image generation:
 
-1. **Read the prose guide** (`guide.md`) and extract the **Prompt Fragment** from the bottom of the file. Incorporate this language into your image generation prompt to anchor the style in text.
+1. **Read the prose guide** (`textual-guide.md`) and extract the **Prompt Fragment** from the bottom of the file. Incorporate this language into your image generation prompt to anchor the style in text.
 
-2. **Use `modify_image` with the visual reference sheet** (`guide.webp`) as the source image instead of using `create_image`. The visual reference gives Gemini concrete color, brushwork, and rendering targets that text alone cannot fully convey.
+2. **Use `modify_image` with the visual reference sheet** (`visual-guide.webp`) as the source image instead of using `create_image`. The visual reference gives Gemini concrete color, brushwork, and rendering targets that text alone cannot fully convey.
 
 3. **Frame the prompt correctly.** The prompt must tell Gemini that the input image is a style reference, not content to reproduce. Use this structure:
 
@@ -56,13 +56,13 @@ When a styleguide applies, follow this procedure for image generation:
 
    [character/item description here]
 
-   [prompt fragment from guide.md here]
+   [prompt fragment from textual-guide.md here]
    ```
 
 4. **Command syntax:**
 
    ```bash
-   modify_image "loreduck/styles/<style>/guide.webp" "<prompt>" "<output_path>"
+   modify_image "loreduck/styles/<style>/visual-guide.webp" "<prompt>" "<output_path>"
    ```
 
    Note: `modify_image` takes the source image as the **first** argument, then the prompt, then the output path.

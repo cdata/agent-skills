@@ -33,7 +33,7 @@ loreduck/styles/<style-name>/
 Use `compose_image` with all input images to produce a style reference sheet:
 
 ```bash
-compose_image "<prompt>" "loreduck/styles/<style-name>/guide.webp" <input-image-1> <input-image-2> ...
+compose_image "<prompt>" "loreduck/styles/<style-name>/visual-guide.webp" <input-image-1> <input-image-2> ...
 ```
 
 The prompt should ask Gemini to create a **style reference sheet** — not a collage or composite, but an analytical breakdown. The prompt must instruct the model to extract and present:
@@ -58,7 +58,7 @@ Lay this out as a clean reference sheet an artist could use to reproduce the sty
 Read each input image directly (Claude is multimodal) and write a prose style description to:
 
 ```
-loreduck/styles/<style-name>/guide.md
+loreduck/styles/<style-name>/textual-guide.md
 ```
 
 The prose guide should describe the shared art style across these dimensions:
@@ -74,7 +74,7 @@ Write it as a concise, actionable reference — something that could be dropped 
 
 ## Step 5: Handle External Images
 
-If any input image does **not** already exist somewhere within the CWD, copy it into `loreduck/styles/<style-name>/` so the styleguide is self-contained.
+If any input image does **not** already exist somewhere within the CWD, copy it into `loreduck/styles/<style-name>/references/` so the styleguide is self-contained.
 
 Use standard file operations (Bash `cp`) to bring external files in.
 
@@ -98,8 +98,8 @@ Schema:
     }
   ],
   "outputs": {
-    "visual": "guide.webp",
-    "prose": "guide.md"
+    "visual": "visual-guide.webp",
+    "prose": "textual-guide.md"
   }
 }
 ```
