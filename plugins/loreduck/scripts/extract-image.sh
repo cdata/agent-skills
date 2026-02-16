@@ -33,12 +33,14 @@ fi
 # Decode to output file
 base64 -d "$TMPB64" > "$OUT"
 
-echo "Saved $(wc -c < "$OUT") bytes to $OUT"
+if [[ "${DEBUG:-0}" == "1" ]]; then
+  echo "Saved $(wc -c < "$OUT") bytes to $OUT"
 
-# Print text commentary if present
-TEXT=$(tr -d '\000-\010\013\014\016-\037' < "$RESP" \
-  | jq -r '.candidates[0].content.parts[] | select(has("text")) | .text' 2>/dev/null)
-if [[ -n "$TEXT" ]]; then
-  echo "---"
-  echo "$TEXT"
+  # Print text commentary if present
+  TEXT=$(tr -d '\000-\010\013\014\016-\037' < "$RESP" \
+    | jq -r '.candidates[0].content.parts[] | select(has("text")) | .text' 2>/dev/null)
+  if [[ -n "$TEXT" ]]; then
+    echo "---"
+    echo "$TEXT"
+  fi
 fi

@@ -184,7 +184,11 @@
               IN_FILE="$1"
               OUT_FILE="$2"
 
-              ${libwebp}/bin/cwebp -preset drawing "$IN_FILE" -o "$OUT_FILE"
+              if [[ "''${DEBUG:-0}" == "1" ]]; then
+                ${libwebp}/bin/cwebp -preset drawing "$IN_FILE" -o "$OUT_FILE"
+              else
+                ${libwebp}/bin/cwebp -preset drawing "$IN_FILE" -o "$OUT_FILE" > /dev/null 2>&1
+              fi
             '';
           };
       in
