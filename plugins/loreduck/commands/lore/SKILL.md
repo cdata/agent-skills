@@ -20,11 +20,11 @@ Creative writing assistant for expanding the lore of a campaign world maintained
 
 Before writing ANY file to `loreduck/` — notes, images, or other assets — check whether a file with the intended name already exists. If it does, append a version suffix before the extension:
 
-- `Penguin Mage (Character Portrait).png` already exists → save as `Penguin Mage (Character Portrait)-v2.png`
-- `Penguin Mage (Character Portrait)-v2.png` already exists → save as `Penguin Mage (Character Portrait)-v3.png`
-- `The Ember Ledger.md` already exists → save as `The Ember Ledger-v2.md`
+- `Penguin Mage (Character Portrait).webp` already exists → save as `Penguin Mage (Character Portrait) v2.webp`
+- `Penguin Mage (Character Portrait) v2.webp` already exists → save as `Penguin Mage (Character Portrait) v3.webp`
+- `The Ember Ledger.md` already exists → save as `The Ember Ledger v2.md`
 
-Use `ls loreduck/` or Glob to check before writing. When a note embeds a versioned image, update the embed link to match (e.g., `![[Penguin Mage (Character Portrait)-v2.png]]`).
+Use `ls loreduck/` or Glob to check before writing. When a note embeds a versioned image, update the embed link to match (e.g., `![[Penguin Mage (Character Portrait) v2.webp]]`).
 
 ## Setting
 
@@ -39,7 +39,11 @@ Styleguides live in `loreduck/styles/` and are created via the `loreduck:stylegu
 - `visual-guide.webp` — a visual reference sheet with color palette swatches, rendering technique examples, lighting analysis, and compositional motifs
 - `textual-guide.md` — a prose style description with a reusable **Prompt Fragment** section at the bottom
 
-The **default styleguide** is a symlink at `loreduck/styles/default` pointing to the active style directory.
+The **default styleguide** is a symlink at `loreduck/styles/default` pointing to the active style directory. You can check to see that it exists with:
+
+```sh
+ls loreduck/styles/default/
+```
 
 ### When to use a styleguide
 
@@ -114,9 +118,9 @@ Write a concise paragraph that blends narrative flavor with mechanical effects. 
 
 Generate an icon for the item. If a styleguide is available (see [Styleguide Integration](#styleguide-integration)), use `modify_image` with the visual reference sheet; otherwise use `create_image`. The image should:
 
-- Be named `{Item Name} (Item Icon).png` and saved to the `loreduck/` folder — check for an existing file and version if needed (see [File Versioning](#file-versioning))
+- Be named `{Item Name} (Item Icon).webp` and saved to the `loreduck/` folder — check for an existing file and version if needed (see [File Versioning](#file-versioning))
 - Depict the item in a fantasy RPG icon style (isometric, on stone or natural surface, painterly)
-- Be embedded at the top of the note as `![[{Item Name} (Item Icon).png|256]]`
+- Be embedded at the top of the note as `![[{Item Name} (Item Icon).webp|256]]`
 
 #### 5. Item tag
 
@@ -152,12 +156,12 @@ A `### Motivation` section with a short bullet list describing what the NPC want
 
 Generate a portrait for the NPC. If a styleguide is available (see [Styleguide Integration](#styleguide-integration)), use `modify_image` with the visual reference sheet; otherwise use `create_image`. The image should:
 
-- Be named `{NPC Name} (Character Portrait).png` and saved to the `loreduck/` folder — check for an existing file and version if needed (see [File Versioning](#file-versioning))
+- Be named `{NPC Name} (Character Portrait).webp` and saved to the `loreduck/` folder — check for an existing file and version if needed (see [File Versioning](#file-versioning))
 - Use a **4:3 aspect ratio**
 - Depict the character in a painterly fantasy illustration style with rich colors and detailed lighting
 - Draw on the NPC's Appearance notes and setting context for the prompt
 
-Embed it at the top of the note as `![[{NPC Name} (Character Portrait).png]]`
+Embed it at the top of the note as `![[{NPC Name} (Character Portrait).webp]]`
 
 #### 7. Journal
 
