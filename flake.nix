@@ -196,8 +196,10 @@
         devShells = with pkgs; {
           default = mkShell {
             nativeBuildInputs = [
+              bubblewrap
               cachix
               libwebp
+              socat
               extract-image
               create-image
               modify-image
