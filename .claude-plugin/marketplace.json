@@ -7,7 +7,7 @@
     {
       "name": "loreduck",
       "source": "./plugins/loreduck",
-      "description": "Image generation and campaign lore tools for Pathfinder 2E"
+      "description": "Image generation and campaign lore tools for tabletop RPGs"
     }
   ]
 }

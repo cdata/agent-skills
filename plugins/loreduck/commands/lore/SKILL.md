@@ -1,11 +1,11 @@
 ---
 name: lore
-description: Creative writing assistant for building out the lore of a Pathfinder 2E campaign world in an Obsidian vault. Helps create NPCs, items, locations, and other lore notes with proper formatting, wiki links, generated images, and PF2E mechanical accuracy.
+description: Creative writing assistant for building out the lore of a campaign world in an Obsidian vault. Helps create NPCs, items, locations, and other lore notes with proper formatting, wiki links, and generated images.
 ---
 
 # Loreduck — Campaign Lore Assistant
 
-Creative writing assistant for expanding the lore of a Pathfinder 2E campaign world maintained as an Obsidian vault.
+Creative writing assistant for expanding the lore of a campaign world maintained as an Obsidian vault.
 
 ## Ground Rules
 
@@ -15,14 +15,61 @@ Creative writing assistant for expanding the lore of a Pathfinder 2E campaign wo
 - **ALWAYS write into the `loreduck/` folder** when creating or modifying notes.
 - **NEVER create or modify notes outside the `loreduck/` folder.**
 
-## Theme
+## Setting
 
-The vault describes the world of a Pathfinder 2E campaign. Ensure coherence with **Pathfinder 2E mechanics** where appropriate. **Pathfinder 1E lore** is considered canon for producing narrative fiction.
+If the vault contains a `setting.md` note, read it before doing any lore work. It defines the game system, genre, tone, canonical references, and any other setting-specific constraints. Treat its contents as authoritative for all creative and mechanical decisions.
 
-When you need to look up Pathfinder or Pathfinder 2E mechanical or lore details, reference these external resources:
+If no `setting.md` exists, default to generic fantasy conventions and ask the user for clarification when system-specific details matter.
 
-- https://2e.aonprd.com/
-- https://pathfinderwiki.com/
+## Styleguide Integration
+
+Styleguides live in `loreduck/styles/` and are created via the `loreduck:styleguide` skill. Each styleguide directory contains:
+
+- `guide.webp` — a visual reference sheet with color palette swatches, rendering technique examples, lighting analysis, and compositional motifs
+- `guide.md` — a prose style description with a reusable **Prompt Fragment** section at the bottom
+
+The **default styleguide** is a symlink at `loreduck/styles/default` pointing to the active style directory.
+
+### When to use a styleguide
+
+Use the default styleguide for all image generation **unless**:
+
+- The user explicitly requests a different style or aesthetic
+- The user references a specific named styleguide (e.g., "use the watercolor style") — in that case, look for it in `loreduck/styles/<name>/`
+- No default styleguide exists (i.e., `loreduck/styles/default` is missing)
+
+### How to apply a styleguide
+
+When a styleguide applies, follow this procedure for image generation:
+
+1. **Read the prose guide** (`guide.md`) and extract the **Prompt Fragment** from the bottom of the file. Incorporate this language into your image generation prompt to anchor the style in text.
+
+2. **Use `modify_image` with the visual reference sheet** (`guide.webp`) as the source image instead of using `create_image`. The visual reference gives Gemini concrete color, brushwork, and rendering targets that text alone cannot fully convey.
+
+3. **Frame the prompt correctly.** The prompt must tell Gemini that the input image is a style reference, not content to reproduce. Use this structure:
+
+   ```
+   The provided image is an ART STYLE REFERENCE SHEET — do not reproduce
+   its layout, content, or the characters shown in it. Instead, analyze its
+   color palette, brushwork, lighting approach, and rendering technique, then
+   use that style to generate an entirely new image of the following subject:
+
+   [character/item description here]
+
+   [prompt fragment from guide.md here]
+   ```
+
+4. **Command syntax:**
+
+   ```bash
+   modify_image "loreduck/styles/<style>/guide.webp" "<prompt>" "<output_path>"
+   ```
+
+   Note: `modify_image` takes the source image as the **first** argument, then the prompt, then the output path.
+
+### When no styleguide is available
+
+If no styleguide exists at `loreduck/styles/default` and the user hasn't specified one, fall back to `create_image` with a descriptive text-only prompt as before.
 
 ## Note Templates
 
@@ -38,21 +85,21 @@ Each item gets its own note in `loreduck/`, named after the item (e.g., `loreduc
 
 Below the image embed, include a bullet-list stat block with these fields:
 
-- **Level**: The item's level per PF2E item scaling
-- **Tags**: Relevant PF2E trait tags (e.g., `#consumable`, `#magical`, `#alchemical`)
-- **Value**: Price in gp, following PF2E item-by-level pricing guidelines
+- **Level**: The item's level or tier, per the setting's item scaling conventions
+- **Tags**: Relevant trait tags (e.g., `#consumable`, `#magical`, `#alchemical`)
+- **Value**: Price in the setting's currency, following its item-by-level pricing guidelines if applicable
 - **Usage**: How the item is used and its action cost (e.g., "Apply to self or object (1 action)")
 - **Duration**: If applicable
 
-When unsure about mechanical details (level-appropriate pricing, trait keywords, action economy), reference https://2e.aonprd.com/ for accuracy.
+When unsure about mechanical details (level-appropriate pricing, trait keywords, action economy), consult the references listed in `setting.md` or ask the user.
 
 #### 3. Description
 
-Write a concise paragraph that blends narrative flavor with PF2E mechanical effects. Weave mechanical details (item bonuses, penalties, skill references) naturally into the prose rather than listing them separately. Keep it short — a few sentences.
+Write a concise paragraph that blends narrative flavor with mechanical effects. Weave mechanical details (item bonuses, penalties, skill references) naturally into the prose rather than listing them separately. Keep it short — a few sentences.
 
 #### 4. Generate a cover image
 
-Use the `loreduck:image` skill to generate an icon for the item. The image should:
+Generate an icon for the item. If a styleguide is available (see [Styleguide Integration](#styleguide-integration)), use `modify_image` with the visual reference sheet; otherwise use `create_image`. The image should:
 
 - Be named `{Item Name} (Item Icon).png` and saved to the `loreduck/` folder
 - Depict the item in a fantasy RPG icon style (isometric, on stone or natural surface, painterly)
@@ -90,7 +137,7 @@ A `### Motivation` section with a short bullet list describing what the NPC want
 
 #### 6. Generate a character portrait
 
-Use the `loreduck:image` skill to generate a portrait for the NPC. The image should:
+Generate a portrait for the NPC. If a styleguide is available (see [Styleguide Integration](#styleguide-integration)), use `modify_image` with the visual reference sheet; otherwise use `create_image`. The image should:
 
 - Be named `{NPC Name} (Character Portrait).png` and saved to the `loreduck/` folder
 - Use a **4:3 aspect ratio**
@@ -109,4 +156,4 @@ The note MUST end with `#npc` on its own line. This is required for the NPC to a
 
 ## How to Use This Skill
 
-When the user invokes `/loreduck:lore`, interpret `$ARGUMENTS` as a lore-building request. Determine whether they want to create an NPC, an item, explore existing lore, or brainstorm new ideas. Follow the appropriate template above, cross-reference existing vault notes for coherence, and use `loreduck:image` for image generation when a template calls for it.
+When the user invokes `/loreduck:lore`, interpret `$ARGUMENTS` as a lore-building request. Determine whether they want to create an NPC, an item, explore existing lore, or brainstorm new ideas. Follow the appropriate template above, cross-reference existing vault notes for coherence, and apply the default styleguide for image generation when one exists (see [Styleguide Integration](#styleguide-integration)).
