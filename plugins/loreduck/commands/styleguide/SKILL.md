@@ -99,7 +99,7 @@ Schema:
   "style": "<style-name>",
   "inputs": [
     {
-      "source": "<path-relative-to-CWD>",
+      "source": "<path-relative-to-manifest>",
       "sha256": "<hex-digest>"
     }
   ],
@@ -116,7 +116,7 @@ Compute hashes using `sha256sum`:
 sha256sum path/to/image.webp
 ```
 
-The `source` path for each input should be relative to the CWD. If an image was copied in during Step 5, use its **new path** (within the styleguide folder) as the source.
+The `source` path for each input should be **relative to the manifest file itself** (i.e., relative to `loreduck/styles/<style-name>/`). If an image was copied in during Step 5, use its **new path** (within the styleguide folder) as the source.
 
 ## Step 7: Manage the Default Styleguide
 
