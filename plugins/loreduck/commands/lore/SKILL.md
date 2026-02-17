@@ -9,9 +9,8 @@ Creative writing assistant for expanding the lore of a campaign world maintained
 
 ## Shell Environment
 
-Before proceeding, read [SHELL_ENVIRONMENT.md](../SHELL_ENVIRONMENT.md). It
-documents the shell commands available in this skill and explains the environment
-they run in.
+Before proceeding, invoke `/loreduck:shell-environment` to learn about the shell
+commands available in this skill and the environment they run in.
 
 ## Ground Rules
 

@@ -1,6 +1,7 @@
 ---
 name: image
 description: Generate, edit, and compose images using Google's Gemini image models via cURL and the REST API. Use this skill when the user asks to create images, generate visuals, edit photos, compose multiple images, create logos, thumbnails, infographics, product shots, or any image generation task. Supports text-to-image, image editing, multi-image composition, iterative refinement, and aspect ratio control.
+user-invocable: false
 ---
 
 # Nano Banana (cURL Edition)
@@ -9,9 +10,8 @@ Image generation skill powered by Google's Gemini image models via the REST API.
 
 ## Shell Environment
 
-Before proceeding, read [SHELL_ENVIRONMENT.md](../SHELL_ENVIRONMENT.md). It
-documents the shell commands available in this skill and explains the environment
-they run in.
+Before proceeding, invoke `/loreduck:shell-environment` to learn about the shell
+commands available in this skill and the environment they run in.
 
 ## Task Workflows
 

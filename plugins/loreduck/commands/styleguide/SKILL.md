@@ -9,9 +9,8 @@ Generates a reusable art style reference from a set of input images. Produces bo
 
 ## Shell Environment
 
-Before proceeding, read [SHELL_ENVIRONMENT.md](../SHELL_ENVIRONMENT.md). It
-documents the shell commands available in this skill and explains the environment
-they run in.
+Before proceeding, invoke `/loreduck:shell-environment` to learn about the shell
+commands available in this skill and the environment they run in.
 
 ## Ground Rules
 

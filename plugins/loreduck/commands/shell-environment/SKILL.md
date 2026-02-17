@@ -1,3 +1,9 @@
+---
+name: shell-environment
+description: Documents the shell commands available to this plugin's skills. Invoke this skill to learn about available commands before using them.
+user-invocable: false
+---
+
 # Shell Environment
 
 This plugin runs inside a shell environment that provides all commands listed below.
