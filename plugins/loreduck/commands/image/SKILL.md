@@ -1,16 +1,17 @@
 ---
 name: image
-description: Generate, edit, and compose images using Google's Gemini image models via cURL and the REST API. Use this skill when the user asks to create images, generate visuals, edit photos, compose multiple images, create logos, thumbnails, infographics, product shots, or any image generation task. Supports text-to-image, image editing, multi-image composition, iterative refinement, and aspect ratio control. No Python required — uses only cURL, jq, and base64.
+description: Generate, edit, and compose images using Google's Gemini image models via cURL and the REST API. Use this skill when the user asks to create images, generate visuals, edit photos, compose multiple images, create logos, thumbnails, infographics, product shots, or any image generation task. Supports text-to-image, image editing, multi-image composition, iterative refinement, and aspect ratio control.
 ---
 
 # Nano Banana (cURL Edition)
 
-Image generation skill powered by Google's Gemini image models via the REST API. Uses only cURL, `jq`, and `base64` — no Python or SDK dependencies.
+Image generation skill powered by Google's Gemini image models via the REST API.
 
-## Requirements
+## Shell Environment
 
-- `GEMINI_API_KEY` environment variable set
-- `curl`, `jq`, and `base64` available on PATH (standard on most Linux/macOS systems)
+Before proceeding, read [SHELL_ENVIRONMENT.md](../SHELL_ENVIRONMENT.md). It
+documents the shell commands available in this skill and explains the environment
+they run in.
 
 ## Task Workflows
 

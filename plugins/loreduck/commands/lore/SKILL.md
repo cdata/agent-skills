@@ -7,6 +7,12 @@ description: Creative writing assistant for building out the lore of a campaign 
 
 Creative writing assistant for expanding the lore of a campaign world maintained as an Obsidian vault.
 
+## Shell Environment
+
+Before proceeding, read [SHELL_ENVIRONMENT.md](../SHELL_ENVIRONMENT.md). It
+documents the shell commands available in this skill and explains the environment
+they run in.
+
 ## Ground Rules
 
 - **Keep responses concise** — no walls of text. Work in short atoms and weave things together with `[[wiki links]]`.

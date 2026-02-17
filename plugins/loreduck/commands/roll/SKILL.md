@@ -7,6 +7,12 @@ description: Roll dice using standard dice notation
 
 Roll polyhedral dice using standard dice notation via the `roll` utility.
 
+## Shell Environment
+
+Before proceeding, read [SHELL_ENVIRONMENT.md](../SHELL_ENVIRONMENT.md). It
+documents the shell commands available in this skill and explains the environment
+they run in.
+
 ## Notation
 
 Standard dice notation is supported:

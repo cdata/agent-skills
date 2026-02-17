@@ -7,6 +7,12 @@ description: Generate reusable art style references from a set of input images. 
 
 Generates a reusable art style reference from a set of input images. Produces both a visual reference sheet (via Gemini) and a prose style description, along with a manifest tracking the source material.
 
+## Shell Environment
+
+Before proceeding, read [SHELL_ENVIRONMENT.md](../SHELL_ENVIRONMENT.md). It
+documents the shell commands available in this skill and explains the environment
+they run in.
+
 ## Ground Rules
 
 - **ALWAYS write output into the `loreduck/styles/` folder.**
