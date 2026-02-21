@@ -44,16 +44,23 @@ guides), **do not attempt to read it directly.** TTRPG PDFs are routinely
 hundreds of megabytes — too large to send over the wire or fit into context, even
 if you have the ability to interpret PDFs natively.
 
-Instead, use the `/loreduck:pdf` skill to convert the PDF to a cleaned Markdown
-artifact. The skill will tell you where to find the resulting file — use that
-path to read and reference the contents:
+Instead, **delegate PDF extraction to a sub-agent** using the Task tool. The
+sub-agent should run the `/loreduck:pdf` skill and report back the path to the
+resulting Markdown artifact. This keeps the extraction workflow — which involves
+multiple passes of analysis and cleanup — fully isolated so it cannot be
+interrupted by other work.
+
+Example Task prompt:
 
 ```
-/loreduck:pdf path/to/rulebook.pdf
+Run /loreduck:pdf path/to/rulebook.pdf and report the path to the resulting
+Markdown artifact.
 ```
 
-Always invoke the skill rather than searching for cached artifacts directly. The
-skill handles caching, so repeated invocations for the same PDF are instant.
+When the sub-agent returns, read the artifact at the reported path. Always
+delegate via a sub-agent rather than running the skill inline or searching for
+cached artifacts directly. The skill handles caching internally, so repeated
+requests for the same PDF are instant.
 
 ## Styleguide Integration
 
