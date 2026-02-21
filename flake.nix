@@ -122,6 +122,23 @@
             '';
           };
 
+        pdf-to-markdown =
+          with pkgs;
+          writeShellApplication {
+            name = "pdf_to_markdown";
+            runtimeInputs = [
+              kreuzberg-cli
+            ];
+            text = ''
+              if [[ $# -lt 2 ]]; then
+                echo "Usage: $(basename "$0") <input>.pdf <output>.md" >&2
+                exit 1
+              fi
+
+              kreuzberg extract --output-format markdown "$1" > "$2"
+            '';
+          };
+
         create-image =
           with pkgs;
           writeShellApplication {
@@ -205,6 +222,7 @@
               modify-image
               compose-image
               convert-to-webp
+              pdf-to-markdown
               kreuzberg-cli
               roll
             ];

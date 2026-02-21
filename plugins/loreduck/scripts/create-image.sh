@@ -19,7 +19,7 @@ set -euo pipefail
 ENDPOINT="https://generativelanguage.googleapis.com/v1beta/models/gemini-3-pro-image-preview:generateContent"
 
 if [[ $# -lt 2 ]]; then
-  echo "Usage: $0 <prompt> <output_image> [aspect_ratio] [image_size]" >&2
+  echo "Usage: $(basename "$0") <prompt> <output_image> [aspect_ratio] [image_size]" >&2
   exit 1
 fi
 

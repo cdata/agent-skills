@@ -10,6 +10,10 @@ This plugin runs inside a shell environment that provides all commands listed be
 **These commands are guaranteed to be on PATH — do not check for their existence
 or verify availability.** Just use them directly.
 
+**Always invoke these commands inside the sandbox.** All of them — including the
+ones that make network requests — are designed to work within the default sandbox
+restrictions. Do not disable the sandbox to run them.
+
 ## Environment Requirements
 
 - `GEMINI_API_KEY` must be set in the shell environment (required by the image
@@ -27,6 +31,14 @@ roll <expression>...
 
 Each positional argument is a dice expression (e.g., `2d6`, `2d20K1`, `1d8+3`).
 Each expression produces one line of output.
+
+### `pdf_to_markdown`
+
+Extract the contents of a PDF file to Markdown format.
+
+```bash
+pdf_to_markdown <input>.pdf <output>.md
+```
 
 ### `create_image`
 

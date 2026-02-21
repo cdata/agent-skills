@@ -37,6 +37,24 @@ If the vault contains a `setting.md` note, read it before doing any lore work. I
 
 If no `setting.md` exists, default to generic fantasy conventions and ask the user for clarification when system-specific details matter.
 
+## PDF References
+
+When you encounter a PDF file in the vault (e.g., rulebooks, bestiaries, setting
+guides), **do not attempt to read it directly.** TTRPG PDFs are routinely
+hundreds of megabytes — too large to send over the wire or fit into context, even
+if you have the ability to interpret PDFs natively.
+
+Instead, use the `/loreduck:pdf` skill to convert the PDF to a cleaned Markdown
+artifact. The skill will tell you where to find the resulting file — use that
+path to read and reference the contents:
+
+```
+/loreduck:pdf path/to/rulebook.pdf
+```
+
+Always invoke the skill rather than searching for cached artifacts directly. The
+skill handles caching, so repeated invocations for the same PDF are instant.
+
 ## Styleguide Integration
 
 Styleguides live in `loreduck/styles/` and are created via the `loreduck:styleguide` skill. Each styleguide directory contains:
