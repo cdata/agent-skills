@@ -4,7 +4,7 @@ description: Generate, edit, and compose images using Google's Gemini image mode
 user-invocable: false
 ---
 
-# Nano Banana (cURL Edition)
+# Image
 
 Image generation skill powered by Google's Gemini image models via the REST API.
 
