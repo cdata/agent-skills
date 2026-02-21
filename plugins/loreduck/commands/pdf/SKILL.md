@@ -48,11 +48,15 @@ to find the artifact and stop.
 
 ### 3. Extract raw text
 
-Run the extraction command, writing to a temporary location:
+Ensure the cache directory exists, then extract directly into it:
 
 ```bash
-pdf_to_markdown <input>.pdf /tmp/claude/<hash>_raw.md
+mkdir -p loreduck/.cache/pdf_text
+pdf_to_markdown <input>.pdf loreduck/.cache/pdf_text/<hash>.md
 ```
+
+**Do not extract to `/tmp` or any other temporary location.** The cache path
+is the only destination. All subsequent cleanup will edit this file in place.
 
 Read the resulting file. This is the raw extraction and will contain various
 artifacts from the PDF-to-text conversion process.
@@ -97,23 +101,13 @@ at a time so that fixes from earlier passes don't conflict with later ones.
 6. Inline formatting (restore emphasis markers if evidence supports it)
 
 After all passes, do a final read-through to catch any regressions or edge
-cases introduced by the cleanup.
+cases introduced by the cleanup. Since the file is already at its final cache
+path, each pass should edit `loreduck/.cache/pdf_text/<hash>.md` in place.
 
-### 6. Write the artifact
+### 6. Create the symlink
 
-Ensure the cache directory exists:
-
-```bash
-mkdir -p loreduck/.cache/pdf_text
-```
-
-Write the cleaned Markdown to:
-
-```
-loreduck/.cache/pdf_text/<hash>.md
-```
-
-Then create a human-friendly symlink derived from the input filename. Strip the
+The artifact is already written at `loreduck/.cache/pdf_text/<hash>.md` from
+steps 3–5. Now create a human-friendly symlink derived from the input filename. Strip the
 `.pdf` extension and append `.md`:
 
 ```bash
@@ -151,6 +145,11 @@ the more useful one to mention).
 - **Cache is content-addressed.** Two different PDFs with different content will
   always produce different hashes. The same PDF will always hit cache on the
   second request regardless of filename.
+- **Do not write intermediate files to disk.** The only files this skill should
+  create are the final cache artifact and its symlink. Cleanup passes should
+  edit the cache artifact in place using the Edit tool. If you need to run a
+  script (e.g., Python) for a transformation, pipe it or evaluate it inline
+  (e.g., `python3 -c '...'`) rather than writing it to a file first.
 
 ## How to Use This Skill
 
