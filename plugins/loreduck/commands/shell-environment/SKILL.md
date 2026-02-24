@@ -74,6 +74,16 @@ compose_image <prompt> <output_image> <source_image>...
 - Supports up to 14 source images in PNG, WebP, or JPEG format
 - `output_image` is always WebP format
 
+### `circle-crop`
+
+Detect a circular frame in an image and crop to it with alpha transparency.
+
+```bash
+circle-crop <input> <output>
+```
+
+The input image should contain a bright circular frame on a dark background. The script detects the frame boundary and replaces the dark background with alpha transparency. Output is always WebP with alpha.
+
 ### `extract_image`
 
 *Internal helper* — extracts a base64 image from a Gemini API JSON response and

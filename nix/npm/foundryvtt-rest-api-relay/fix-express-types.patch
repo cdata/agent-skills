@@ -1,0 +1,20 @@
+--- a/src/index.ts
++++ b/src/index.ts
+@@ -84,7 +84,7 @@
+ app.use(redisSessionMiddleware);
+
+ // Add global error handler
+-app.use((err: any, req: Request, res: Response, next: NextFunction) => {
++app.use(((err: any, req: Request, res: Response, next: NextFunction) => {
+   log.error('Unhandled error:', err);
+   log.error(`Error on ${req.method} ${req.path}`);
+   if (!res.headersSent) {
+@@ -109,7 +109,7 @@
+     // Default error response
+     res.status(500).json({ error: 'Internal server error' });
+   }
+-});
++}) as express.ErrorRequestHandler);
+
+ // Serve static files from public directory
+ app.use("/static", express.static(path.join(__dirname, "../public")));

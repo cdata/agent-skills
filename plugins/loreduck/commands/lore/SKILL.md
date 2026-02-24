@@ -193,11 +193,18 @@ Generate a portrait for the NPC. If a styleguide is available (see [Styleguide I
 
 Embed it at the top of the note as `![[{NPC Name} (Character Portrait).webp]]`
 
-#### 7. Journal
+#### 7. Generate a token icon
+
+Use the `/loreduck:token` skill to generate a token icon from the portrait
+created in step 6. Pass the portrait path and character context (name, race,
+class, traits) as arguments. Embed the resulting token below the portrait as
+`![[{NPC Name} (Token Icon).webp|256]]`.
+
+#### 8. Journal
 
 A `### Journal` section for recording what actually happened in play. This starts empty when the NPC is first created and gets filled in during or after sessions.
 
-#### 8. NPC tag
+#### 9. NPC tag
 
 The note MUST end with `#npc` on its own line. This is required for the NPC to appear in the NPC filtered database.
 
