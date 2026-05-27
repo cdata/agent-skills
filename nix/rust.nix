@@ -5,9 +5,11 @@
       pname = "rollpoly";
       version = "0.9.0";
 
-      src = fetchCrate {
-        inherit pname version;
-        sha256 = "sha256-/ijnTORhL3uuoRRhKygOu3WUyalM73syajy8qHMw52Q=";
+      src = fetchFromGitHub {
+        owner = "raykrueger";
+        repo = "rollpoly";
+        tag = "v${version}";
+        hash = "sha256-yT69xdqoFcYZV9W6gtbUbEMwTFsf37tWH7HL/4UI0ws=";
       };
 
       cargoHash = "sha256-xp7B1CQ8Pabky4uR7kPOrGc01wJlUEhTTb+sKlErzsk=";
